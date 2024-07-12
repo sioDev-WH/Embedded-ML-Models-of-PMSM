@@ -1,0 +1,22 @@
+Can we use Kaggle-Based model that we created to implement an FPGA controller that runs faster and more accurate than the 100KHz controller cited in the paper in this section?
+Step-by-Step Development and Implementation of FS-MPC for a FPGA-Based PMSM Drive System
+ Electronics 2021, 10(4), 395; https://doi.org/10.3390/electronics10040395 
+
+finite-set model-predictive control (FS-MPC)
+
+
+Similar Papers can be found by searching for:
+PMSM MPC FPGA
+
+Efficient FPGA-Based Real-Time Implementation of Model Predictive Control for Single-Phase Direct Matrix Converter
+https://www.tandfonline.com/doi/abs/10.1080/15325008.2021.1908448
+Finite control set model predictive control (FCS-MPC) is an optimal control strategy that solves user-defined objective functions to determine the best control action for the next time interval. Real-time implementations of model predictive control techniques are quite challenging for certain topologies due to computation complexities. In this paper, key aspects of achieving robust, reliable, and efficient field programmable gate arrays (FPGAs) based model predictive control are presented for single-phase direct matrix topology. The effectiveness of FPGA-based model predictive control is validated experimentally using an ALTERA Cyclone IV FPGA. Experimental results show that an effective load current control performance is obtained by taking advantage of pipelining capability of the FPGA device. The tradeoff between control bandwidth, FPGA resources, and hardware utilization is discussed.
+
+(See https://sci-hub.se/10.1080/15325008.2021.1908448 for pdf)
+
+
+
+
+
+and at Simulink:
+https://www.mathworks.com/help/mcb/pmsm.html

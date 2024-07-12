@@ -1,0 +1,2 @@
+PhD Akron 2006 - ON-LINE PARAMETER ESTIMATION AND ADAPTIVE CONTROL OF PERMANENT MAGNET SYNCHRONOUS MACHINES
+[10]. K.-W. Lee, D.-H. Jung, I.-J. Ha, “An Online Identification Method for Both Stator Resistance and Back-EMF Coefficients of PMSMs without Rotational Transducers”, IEEE Transactions on Industrial Electronics, Vol. 51, No. 2, April 2004.

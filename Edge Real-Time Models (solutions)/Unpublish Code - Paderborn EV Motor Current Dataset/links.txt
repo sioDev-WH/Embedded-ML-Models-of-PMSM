@@ -1,0 +1,171 @@
+
+Using a single scaler for all folds
+------------------------------------
+https://stackoverflow.com/questions/59771061/using-inverse-transform-minmaxscaler-from-scikit-learn-to-force-a-dataframe-be-i
+(not sure it's OK)
+
+Features and Output Scaling
+---------------------------
+# Perform (features and outputs) scaling transformation after data splits and before training (and inverse transformation before testing)
+# standardize vs normalize https://medium.com/@rrfd/standardize-or-normalize-examples-in-python-e3f174b65dfc
+# https://benalexkeen.com/feature-scaling-with-scikit-learn/
+
+# Scaling differently for different columns (e.g., min-max and robust at same time)
+-------------------------------------------
+# Replace the following with class sklearn.compose.ColumnTransformer
+# https://scikit-learn.org/stable/modules/generated/sklearn.compose.ColumnTransformer.html
+# See also https://stackoverflow.com/a/54322771
+
+# Scaling with range specified
+---------------------------------
+https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MinMaxScaler.html
+
+# Linear Regression, ANOVA, R^2 and p-value
+--------------------------------------------
+
+https://stackoverflow.com/questions/47273809/statsmodels-pt
+"t is the value of the t-statistic for testing if the corresponding coefficient is different from 0. (Hypothesis H0: coef==0, H1: coef!=0)
+Pr>|t| is the p-value for this hypothesis test. A low p-value means, that you can reject the null-hypothesis and accept the alternative hypothesis (coef!=0)."
+
+See minitab link below for how the t-value is calculated
+"Dividing the coefficient by its standard error calculates a t-value"
+
+In our case almost all Pr>|t| = 0 (which implies the coefficients are NOT 0.0)
+
+Confidence Intervals of each parameter are displayed as the last two columns (after Pr>|t| )
+
+
+
+https://www.youtube.com/watch?v=nk2CQITm_eo (StatQuest: Linear Models Pt.1 - Linear Regression)
+https://stackoverflow.com/questions/27928275/find-p-value-significance-in-scikit-learn-linearregression calculate p-val in Scikit
+https://www.machinelearningplus.com/statistics/p-value/   [model = smf.ols('x_names ~ y_names', data=df).fit()] df=[Xtr|Ytr]
+https://www.youtube.com/watch?v=NF5_btOaCig (StatQuest: Linear Models Pt.2 - t-tests and ANOVA)
+https://www.youtube.com/watch?v=-yQb_ZJnFXw (How To Calculate and Understand Analysis of Variance (ANOVA) F Test.)
+https://www.youtube.com/watch?v=Ke9ttUj7AQc (same but in Excel)
+Check for Autocorrelation and Multicollinearity
+https://www.statisticssolutions.com/assumptions-of-linear-regression/   (check correlation between features for Multicollinearity)
+https://www.theanalysisfactor.com/why-anova-is-really-linear-regression-notation/  (relationship between ANOVA and Linear Regression)
+https://medium.com/@snaveenmathew/simple-linear-regression-and-anova-c93ae51bdecb
+https://statisticsbyjim.com/regression/interpret-coefficients-p-values-regression/
+AIC: https://en.wikipedia.org/wiki/Akaike_information_criterion
+
+https://support.minitab.com/en-us/minitab/18/help-and-how-to/modeling-statistics/regression/supporting-topics/regression-models/what-is-the-standard-error-of-the-coefficient
+"Use the standard error of the coefficient to measure the precision of the estimate of the coefficient.
+The smaller the standard error, the more precise the estimate. Dividing the coefficient by its standard error calculates a t-value.
+If the p-value associated with this t-statistic is less than your alpha level, you conclude that the coefficient is significantly different from zero."
+
+Condition Number: Warning in StatModels
+Warning: The condition number is large, <some large value>. This might indicate that there are
+strong multicollinearity or other numerical problems.
+https://stats.stackexchange.com/questions/243000/cause-of-a-high-condition-number-in-a-python-statsmodels-regression
+
+https://en.wikipedia.org/wiki/Likelihood_function
+Interpreting the results of statsmodels:
+https://www.statsmodels.org/0.9.0/generated/statsmodels.regression.linear_model.RegressionResults.html#statsmodels.regression.linear_model.RegressionResults
+Example Maximum Likelihood for estimating model parameters
+https://khakieconomics.github.io/2018/07/14/What-is-a-likelihood-anyway.html (example)
+https://towardsdatascience.com/calculating-maximum-likelihood-estimation-by-hand-step-by-step-3a740c637c20 (step by step derivation)
+https://machinelearningmastery.com/linear-regression-with-maximum-likelihood-estimation/
+https://www.reddit.com/r/statistics/comments/23sk6h/what_does_a_loglikelihood_value_indicate_and_how/ :
+"Log-likelihood is all your data run through the pdf of the likelihood (logistic function), the logarithm taken for each value, and then they are summed together. Since likelihoods are the same functional form as pdfs (except the data is treated as given, and the parameters are estimated instead of the other way around), the log-likelihood is almost always negative. More 'likely' things are higher, therefore, the maximum likelihood is sought.
+The only real interpretation for log-likelihood is, higher is better. If you're looking at only one model for your data, the number is absolutely meaningless. If you look at an alternative model, say you add an interaction or something, then you can start looking at relative changes in your log-likelihood and do stuff like a likelihood ratio test.
+But even adding more data will lower your likelihood, that's just because more pdfs multiplied together are going usually going to give you smaller and smaller numbers. Not that adding data is bad, but it's effect on your likelihood is a negative one, even though it will add precision to your parameters. So you really can only compare different models on the same data and still have likelihood be "meaningful".
+No it's not like R2, I'm not sure what the G-value is, wikipedia says it's related to the likelihood ratio test, but I'm not sure what it's comparing it to. Probably the Null model with just an constant term? Not sure.
+"
+
+example printout of stats: (see also - https://www.youtube.com/watch?v=U7D1h5bbpcs)
+---------------------------
+stats for id model:                                   OLS Regression Results
+=======================================================================================
+Dep. Variable:                      y   R-squared (uncentered):                   1.000
+Model:                            OLS   Adj. R-squared (uncentered):              1.000
+Method:                 Least Squares   F-statistic:                          2.504e+08
+Date:                Fri, 03 Jul 2020   Prob (F-statistic):                        0.00
+Time:                        19:26:37   Log-Likelihood:                     -1.1778e+06
+No. Observations:              578834   AIC:                                  2.356e+06
+Df Residuals:                  578825   BIC:                                  2.356e+06
+Df Model:                           9               | p-val (H0: parameter=0) should be very small   (t = coef/'std err')
+Covariance Type:            nonrobust               V
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975] <------ (95%) Confidence intervals of the parameter values
+------------------------------------------------------------------------------
+x1             0.9563      0.000   6063.187      0.000       0.956       0.957
+x2             0.1027      0.000    652.069      0.000       0.102       0.103
+x3            25.0841      0.010   2570.044      0.000      25.065      25.103
+x4            15.4712      0.011   1368.817      0.000      15.449      15.493
+x5            -0.0382      0.000   -199.584      0.000      -0.039      -0.038
+x6             0.0635   8.22e-05    772.679      0.000       0.063       0.064
+x7            -0.0530   8.62e-05   -614.997      0.000      -0.053      -0.053
+x8             0.0895   8.06e-05   1111.109      0.000       0.089       0.090
+x9             0.0108   7.08e-05    153.029      0.000       0.011       0.011
+==============================================================================
+Omnibus:                    16029.832   Durbin-Watson:                   2.001    <----- ideal value = 2.0 (unlike AIC/BIC; i.e., can be interpreted for a single model)
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):            39753.904
+Skew:                          -0.073   Prob(JB):                         0.00
+Kurtosis:                       4.275   Cond. No.                     1.03e+03    <---- max(eignvalue)/min(eigenvalue)
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.        <----- TO DO: investigate
+[2] The condition number is large, 1.03e+03. This might indicate that there are
+strong multicollinearity or other numerical problems.                                              <-- See https://www.youtube.com/watch?v=NAPhUDjgG_s (OK in our case)
+stats for iq model:                                   OLS Regression Results
+=======================================================================================
+Dep. Variable:                      y   R-squared (uncentered):                   0.999
+Model:                            OLS   Adj. R-squared (uncentered):              0.999
+Method:                 Least Squares   F-statistic:                          1.145e+08
+Date:                Fri, 03 Jul 2020   Prob (F-statistic):                        0.00
+Time:                        19:26:38   Log-Likelihood:                     -1.4177e+06
+No. Observations:              578834   AIC:                                  2.835e+06
+Df Residuals:                  578825   BIC:                                  2.835e+06
+Df Model:                           9
+Covariance Type:            nonrobust
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+x1            -0.0155      0.000    -64.818      0.000      -0.016      -0.015
+x2             1.0383      0.000   4357.278      0.000       1.038       1.039
+x3             1.9188      0.015    129.905      0.000       1.890       1.948
+x4            -2.8532      0.017   -166.803      0.000      -2.887      -2.820
+x5            -0.0275      0.000    -94.939      0.000      -0.028      -0.027
+x6            -0.1083      0.000   -871.319      0.000      -0.109      -0.108
+x7             0.0254      0.000    194.406      0.000       0.025       0.026
+x8             0.3080      0.000   2525.634      0.000       0.308       0.308
+x9             0.0359      0.000    334.707      0.000       0.036       0.036
+==============================================================================
+Omnibus:                    44155.086   Durbin-Watson:                   2.002
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):           189488.799
+Skew:                           0.269   Prob(JB):                         0.00
+Kurtosis:                       5.751   Cond. No.                     1.03e+03
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 1.03e+03. This might indicate that there are
+strong multicollinearity or other numerical problems.
+
+
+
+Save figure
+------------
+https://stackoverflow.com/questions/9622163/save-plot-to-image-file-instead-of-displaying-it-using-matplotlib
+https://stackoverflow.com/questions/14352223/saving-figure-with-resizing-in-matplotlib
+https://matplotlib.org/3.1.0/tutorials/text/text_intro.html
+
+Sizes (rows)
+------------
+df
+   https://stackoverflow.com/questions/15943769/how-do-i-get-the-row-count-of-a-pandas-dataframe  (very fast use index)
+numpy
+   https://stackoverflow.com/questions/18688948/numpy-how-do-i-find-total-rows-in-a-2d-array-and-total-column-in-a-1d-array
+
+
+Elastic Net
+------------
+https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.ElasticNet.html
+https://scikit-learn.org/stable/auto_examples/linear_model/plot_lasso_and_elasticnet.html
+
+
+
+Pipelines
+----------
